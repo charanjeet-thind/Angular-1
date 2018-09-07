@@ -51,6 +51,14 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return throwError({ error: { message: 'Unauthorised' } });
                 }
             }
+			// get roles
+			if (request.url.endsWith('/roles') && request.method === 'GET') { 
+			console.log(users);
+			console.log(roles);
+			//alert('here');
+				// check for fake auth token in header and return roles if valid, this security is implemented server side in a real application
+				return of(new HttpResponse({ status: 200, body: roles }));
+			}
 
             // get user by id
             if (request.url.match(/\/users\/\d+$/) && request.method === 'GET') {

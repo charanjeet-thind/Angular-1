@@ -2,8 +2,9 @@
 import { Router } from '@angular/router';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
-
+import { Role } from '../_models/role';
 import { AlertService, UserService } from '../_services';
+import { RolesService } from '../_services/roles.service';
 
 
 
@@ -16,41 +17,41 @@ export class RegisterComponent implements OnInit {
 	dropdownList = [];
 	selectedItems = [];
 	dropdownSettings = {};
+	roles: Role[] = [];
 
     constructor(
         private formBuilder: FormBuilder,
         private router: Router,
         private userService: UserService,
+		private roleService: RolesService,
         private alertService: AlertService) { }
 
     ngOnInit() {
+		this.loadAllRoles();
         this.registerForm = this.formBuilder.group({
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
             username: ['', Validators.required],
-            skills: ['', Validators.required],
+            roles: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(6)]]
         });
-		this.dropdownList = [
-			  { item_id: 1, item_text: 'Mumbai' },
-			  { item_id: 2, item_text: 'Bangaluru' },
-			  { item_id: 3, item_text: 'Pune' },
-			  { item_id: 4, item_text: 'Navsari' },
-			  { item_id: 5, item_text: 'New Delhi' }
-			];
-			this.selectedItems = [
-			  { item_id: 3, item_text: 'Pune' },
-			  { item_id: 4, item_text: 'Navsari' }
-			];
-			this.dropdownSettings = {
-			  singleSelection: false,
-			  idField: 'item_id',
-			  textField: 'item_text',
-			  selectAllText: 'Select All',
-			  unSelectAllText: 'UnSelect All',
-			  itemsShowLimit: 10,
-			  allowSearchFilter: true
-			};
+		this.dropdownList = [];
+		this.selectedItems = [];
+		this.dropdownSettings = {
+		  singleSelection: false,
+		  idField: 'id',
+		  textField: 'roleName',
+		  selectAllText: 'Select All',
+		  unSelectAllText: 'UnSelect All',
+		  itemsShowLimit: 10,
+		  allowSearchFilter: true
+		};
+    }
+	
+	private loadAllRoles() {
+        this.roleService.getAll().pipe(first()).subscribe(roles => {		 
+            this.dropdownList = roles; 
+        });
     }
 	
 	onItemSelect (item:any) {
@@ -73,6 +74,7 @@ export class RegisterComponent implements OnInit {
 
         this.loading = true;
 		console.log(this.registerForm.value);
+		//return false;
         this.userService.register(this.registerForm.value)
             .pipe(first())
             .subscribe(

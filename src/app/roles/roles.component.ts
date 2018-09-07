@@ -43,7 +43,7 @@ export class RolesComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 data => {
-                    this.alertService.success('Registration successful', true);
+                    this.alertService.success('Role created successful', true);
                     this.router.navigate(['/login']);
                 },
                 error => {

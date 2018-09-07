@@ -1,9 +1,12 @@
-﻿<h1>Hi {{currentUser.firstName}}!</h1>
-<p>You're logged in with Angular 6!!</p>
+﻿<h1>Hi {{currentUser.firstName | uppercase}}!</h1>
+<p>Welcome</p>
 <h3>All registered users:</h3>
 <ul>
     <li *ngFor="let user of users">
-        {{user.username}} ({{user.firstName}} {{user.lastName}})
+        {{user.username}} ({{user.firstName | titlecase}} {{user.lastName | titlecase}})
+		<div *ngFor="let role of user.roles" class="row">
+					{{role.roleName | titlecase}}
+		</div>	
         - <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
     </li>
 </ul>
