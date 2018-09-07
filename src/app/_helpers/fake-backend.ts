@@ -11,6 +11,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // array in local storage for registered users
         let users: any[] = JSON.parse(localStorage.getItem('users')) || [];
+        let roles: any[] = JSON.parse(localStorage.getItem('roles')) || [];
 
         // wrap in delayed observable to simulate server api call
         return of(null).pipe(mergeMap(() => {
@@ -87,6 +88,26 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 // respond 200 OK
                 return of(new HttpResponse({ status: 200 }));
             }
+			
+			// register role
+			if (request.url.endsWith('/roles/register') && request.method === 'POST') {
+				// get new role object from post body
+				let newRole = request.body;
+
+				// validation
+				let duplicateRole = roles.filter(role => { return role.roleName === newRole.roleName; }).length;
+				if (duplicateRole) {
+					return throwError({ error: { message: 'Role Name "' + newRole.roleName + '" is already taken' } });
+				}
+
+				// save new role
+				newRole.id = roles.length + 1;
+				roles.push(newRole);
+				localStorage.setItem('roles', JSON.stringify(roles));
+
+				// respond 200 OK
+				return of(new HttpResponse({ status: 200 }));
+			}
 
             // delete user
             if (request.url.match(/\/users\/\d+$/) && request.method === 'DELETE') {

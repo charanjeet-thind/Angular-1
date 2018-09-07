@@ -37,7 +37,7 @@ export class RolesComponent implements OnInit {
         if (this.roleForm.invalid) {
             return;
         }
-alert('here');
+
         this.loading = true;
         this.roleService.register(this.roleForm.value)
             .pipe(first())

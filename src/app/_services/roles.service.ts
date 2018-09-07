@@ -19,7 +19,6 @@ export class RolesService {
 	}
 
 	register(role: Role) { 
-	alert(role);
 		return this.http.post(`${environment.apiUrl}/roles/register`, role);
 	}
 
