@@ -28,6 +28,7 @@ export class RegisterComponent implements OnInit {
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],
             username: ['', Validators.required],
+            skills: ['', Validators.required],
             password: ['', [Validators.required, Validators.minLength(6)]]
         });
 		this.dropdownList = [
@@ -47,7 +48,7 @@ export class RegisterComponent implements OnInit {
 			  textField: 'item_text',
 			  selectAllText: 'Select All',
 			  unSelectAllText: 'UnSelect All',
-			  itemsShowLimit: 3,
+			  itemsShowLimit: 10,
 			  allowSearchFilter: true
 			};
     }
@@ -71,6 +72,7 @@ export class RegisterComponent implements OnInit {
         }
 
         this.loading = true;
+		console.log(this.registerForm.value);
         this.userService.register(this.registerForm.value)
             .pipe(first())
             .subscribe(
