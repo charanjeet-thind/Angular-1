@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 import { environment } from '../../environments/environment';
-import { Role } from '../_models';
+import { Role } from '../_models/role';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,8 @@ export class RolesService {
 		return this.http.get(`${environment.apiUrl}/roles/` + id);
 	}
 
-	register(role: Role) {
+	register(role: Role) { 
+	alert(role);
 		return this.http.post(`${environment.apiUrl}/roles/register`, role);
 	}
 

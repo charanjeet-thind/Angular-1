@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AlertService, UserService } from '../_services';
+import { RolesService } from '../_services/roles.service';
 
 @Component({
   templateUrl: './roles.component.html'
@@ -18,6 +19,7 @@ export class RolesComponent implements OnInit {
 	private formBuilder: FormBuilder,
 	private router: Router,
 	private userService: UserService,
+	private roleService: RolesService,
 	private alertService: AlertService) { }
 
 
@@ -37,7 +39,7 @@ export class RolesComponent implements OnInit {
         }
 alert('here');
         this.loading = true;
-        this.userService.register(this.roleForm.value)
+        this.roleService.register(this.roleForm.value)
             .pipe(first())
             .subscribe(
                 data => {
