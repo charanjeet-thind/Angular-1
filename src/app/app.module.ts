@@ -16,14 +16,18 @@ import { AlertService, AuthenticationService, UserService } from './_services';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';;
-import { RolesComponent } from './roles/roles.component'
+import { RolesComponent } from './roles/roles.component';
+import {FormsModule} from '@angular/forms';
+import { NgMultiSelectDropDownModule } from 'ng-multiselect-dropdown';
 
 @NgModule({
     imports: [
         BrowserModule,
         ReactiveFormsModule,
         HttpClientModule,
-        routing
+        routing,
+		FormsModule,
+		NgMultiSelectDropDownModule.forRoot()
     ],
     declarations: [
         AppComponent,
